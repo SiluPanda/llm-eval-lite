@@ -3,6 +3,7 @@
 One-function LLM evaluation with heuristic and model-graded assertions.
 
 [![npm version](https://img.shields.io/npm/v/llm-eval-lite.svg)](https://www.npmjs.com/package/llm-eval-lite)
+[![npm downloads](https://img.shields.io/npm/dt/llm-eval-lite.svg)](https://www.npmjs.com/package/llm-eval-lite)
 [![license](https://img.shields.io/npm/l/llm-eval-lite.svg)](https://github.com/SiluPanda/llm-eval-lite/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/llm-eval-lite.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
