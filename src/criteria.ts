@@ -45,6 +45,8 @@ export function scoreConciseness(output: string, expected: string): number {
 
   const outLen = tokenizeAll(output).length
   const expLen = tokenizeAll(expected).length
+  if (outLen === 0 && expLen === 0) return 1.0
+  if (outLen === 0 || expLen === 0) return 0.0
   const lengthRatio = Math.min(expLen, outLen) / Math.max(expLen, outLen)
   const repetitionRate = computeSentenceRepetition(output)
   return (1 - repetitionRate) * 0.3 + lengthRatio * 0.7

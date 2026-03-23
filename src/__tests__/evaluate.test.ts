@@ -233,3 +233,20 @@ describe('scoreCustom', () => {
     expect(result.score).toBeGreaterThan(0.5)
   })
 })
+
+describe('edge cases', () => {
+  it('conciseness returns valid score for non-word-character-only inputs', async () => {
+    const result = await evaluate('!!!', '???', 'conciseness', { mode: 'heuristic' })
+    const single = result as EvalResult
+    expect(Number.isNaN(single.score)).toBe(false)
+    expect(single.score).toBeGreaterThanOrEqual(0)
+    expect(single.score).toBeLessThanOrEqual(1)
+  })
+
+  it('empty batch returns pass: false', async () => {
+    const result = await evaluateBatch([], 'similarity')
+    expect(result.pass).toBe(false)
+    expect(result.aggregateScore).toBe(0)
+    expect(result.results).toHaveLength(0)
+  })
+})
