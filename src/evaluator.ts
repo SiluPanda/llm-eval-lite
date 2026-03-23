@@ -16,17 +16,21 @@ function computeAggregate(
   scores: number[],
   threshold: number
 ): CriterionAggregate {
-  const sorted = [...scores].sort((a, b) => a - b)
+  const valid = scores.filter(s => !Number.isNaN(s))
+  if (valid.length === 0) {
+    return { criterion, mean: 0, median: 0, min: 0, max: 0, stdDev: 0, passRate: 0 }
+  }
+  const sorted = [...valid].sort((a, b) => a - b)
   const n = sorted.length
-  const mean = scores.reduce((a, b) => a + b, 0) / n
+  const mean = valid.reduce((a, b) => a + b, 0) / n
   const median = n % 2 === 0
     ? (sorted[n / 2 - 1] + sorted[n / 2]) / 2
     : sorted[Math.floor(n / 2)]
   const min = sorted[0]
   const max = sorted[n - 1]
-  const variance = scores.reduce((acc, s) => acc + (s - mean) ** 2, 0) / n
+  const variance = valid.reduce((acc, s) => acc + (s - mean) ** 2, 0) / n
   const stdDev = Math.sqrt(variance)
-  const passRate = scores.filter(s => s >= threshold).length / n
+  const passRate = valid.filter(s => s >= threshold).length / n
 
   return { criterion, mean, median, min, max, stdDev, passRate }
 }
@@ -126,7 +130,7 @@ export async function evaluateBatch(
     ? allScores.reduce((a, b) => a + b, 0) / allScores.length
     : 0
 
-  const pass = resultPairs.every(r => {
+  const pass = resultPairs.length > 0 && resultPairs.every(r => {
     const res = r.result
     if ('pass' in res) return res.pass
     return false
